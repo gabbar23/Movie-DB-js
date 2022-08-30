@@ -49,6 +49,7 @@
 
 const formSignUp=document.querySelector('#a-form');
 const formSingIn=document.querySelector('#b-form');
+const switchBock=document.querySelector('#switch-cnt');
 const storageObject={}
 
 const storageEnable = function () {
@@ -68,13 +69,23 @@ const getInputs=function(form){
 
 //event listners
 
-//Singup Form
+//Signup Form
 formSignUp.addEventListener('submit',(e)=>{
     e.preventDefault();
     const formInputs=getInputs(formSignUp)
     storageObject[formInputs.Email]=formInputs.Password;
+    console.log(storageObject);
+    formSignUp.reset();
 }
 )
 
 //Toggle Form
-
+switchBock.addEventListener("click", e=>{
+    const btnT=e.target.closest(".switch-btn")
+    if(!btnT) return
+    const containerToggle=btnT.closest(".switch__container")
+    console.log(containerToggle.classList);
+    containerToggle.classList.toggle("is-hidden")
+    console.log(containerToggle);
+}
+)
