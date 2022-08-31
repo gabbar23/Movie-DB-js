@@ -1,91 +1,31 @@
-// /*
-// 		Designed by: SELECTO
-// 		Original image: https://dribbble.com/shots/5311359-Diprella-Login
-// */
-
-// let switchCtn = document.querySelector("#switch-cnt");
-// let switchC1 = document.querySelector("#switch-c1");
-// let switchC2 = document.querySelector("#switch-c2");
-// let switchCircle = document.querySelectorAll(".switch__circle");
-// let switchBtn = document.querySelectorAll(".switch-btn");
-// let aContainer = document.querySelector("#a-container");
-// let bContainer = document.querySelector("#b-container");
-// let allButtons = document.querySelectorAll(".submit");
-
-// let getButtons = (e) => e.preventDefault()
-
-// let changeForm = (e) => {
-
-//     switchCtn.classList.add("is-gx");
-//     setTimeout(function(){
-//         switchCtn.classList.remove("is-gx");
-//     }, 1500)
-
-//     switchCtn.classList.toggle("is-txr");
-//     switchCircle[0].classList.toggle("is-txr");
-//     switchCircle[1].classList.toggle("is-txr");
-
-//     switchC1.classList.toggle("is-hidden");
-//     switchC2.classList.toggle("is-hidden");
-//     aContainer.classList.toggle("is-txl");
-//     bContainer.classList.toggle("is-txl");
-//     bContainer.classList.toggle("is-z200");
-// }
-
-// let mainF = (e) => {
-//     for (var i = 0; i < allButtons.length; i++)
-//         allButtons[i].addEventListener("click", getButtons );
-//     for (var i = 0; i < switchBtn.length; i++)
-//         switchBtn[i].addEventListener("click", changeForm)
-// }
-
-// window.addEventListener("load", mainF);
-
-
-
 'strict'
 
-//Query Selectors
-
-const formSignUp=document.querySelector('#a-form');
-const formSingIn=document.querySelector('#b-form');
-const switchBock=document.querySelector('#switch-cnt');
-const storageObject={}
-
-const storageEnable = function () {
-    localStorage.setItem("todolist", JSON.stringify(storageObject));
+TIMEOUT_SEC=5
+const timeout = function (s) {
+    return new Promise(function (_, reject) {
+      setTimeout(function () {
+        reject(new Error(`Request took too long! Timeout after ${s} second`));
+      }, s * 1000);
+    });
   };
 
-//helper functions
-const getInputs=function(form){
-    const inputs=Array.from(form.querySelectorAll('.form__input'));
-    const formInputobject={};
-    inputs.map(i=>
-        formInputobject[i.placeholder]=i.value)
-        return formInputobject
-}
+
+const getJson = async function(url){
+    try{
+    const response = await Promise.race([fetch(url),timeout(TIMEOUT_SEC)]);
+    const responseData = await response.json();
+    if (!response.ok) throw new Error(`Api Error`);
+      return responseData;
+    }
+    catch(err){
+        throw err
+    }}
 
 
+    const getData=async function(){
+    const data =await getJson(`https://api.themoviedb.org/4/list/2?page=1&api_key=bfddf1ad8733dc4723d9d38c49112ff3`)
 
-//event listners
+    console.log(data.results);
+    }
 
-//Signup Form
-formSignUp.addEventListener('submit',(e)=>{
-    e.preventDefault();
-    const formInputs=getInputs(formSignUp)
-    storageObject[formInputs.Email]=formInputs.Password;
-    console.log(storageObject);
-    formSignUp.reset();
-}
-)
-
-//Toggle Form
-switchBock.addEventListener("click", e=>{
-    const btnT=e.target.closest(".switch-btn")
-    if(!btnT) return
-    const containerToggle=btnT.closest(".switch__container")
-    console.log(containerToggle.classList);
-    containerToggle.classList.toggle("is-hidden")
-    console.log(containerToggle);
-}
-)
+    getData()
