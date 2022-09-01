@@ -1,7 +1,10 @@
-'strict'
-
+//constants
 TIMEOUT_SEC=5
-const timeout = function (s) {
+API_URL=`https://api.themoviedb.org/4/list/1?page=1&api_key=bfddf1ad8733dc4723d9d38c49112ff3`
+
+
+//helper functions
+export const timeout = function (s) {
     return new Promise(function (_, reject) {
       setTimeout(function () {
         reject(new Error(`Request took too long! Timeout after ${s} second`));
@@ -10,7 +13,7 @@ const timeout = function (s) {
   };
 
 
-const getJson = async function(url){
+export const getJson = async function(url){
     try{
     const response = await Promise.race([fetch(url),timeout(TIMEOUT_SEC)]);
     const responseData = await response.json();
@@ -22,10 +25,4 @@ const getJson = async function(url){
     }}
 
 
-    const getData=async function(){
-    const data =await getJson(`https://api.themoviedb.org/4/list/2?page=1&api_key=bfddf1ad8733dc4723d9d38c49112ff3`)
-
-    console.log(data.results);
-    }
-
-    getData()
+export {TIMEOUT_SEC,API_URL}
