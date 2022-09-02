@@ -1,4 +1,9 @@
 import * as modal from './modal.js'
+import View from './view.js'
 
 
-modal.getData()
+
+(async function(){
+await modal.getData()
+View.renderData(modal.pagesData())
+})();

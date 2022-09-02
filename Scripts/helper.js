@@ -1,6 +1,6 @@
 //constants
 TIMEOUT_SEC=5
-API_URL=`https://api.themoviedb.org/4/list/1?page=1&api_key=bfddf1ad8733dc4723d9d38c49112ff3`
+API_URL=`https://api.themoviedb.org/4/list/1?page=3&api_key=bfddf1ad8733dc4723d9d38c49112ff3`
 
 
 //helper functions
